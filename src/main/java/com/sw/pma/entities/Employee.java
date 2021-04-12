@@ -2,7 +2,7 @@ package com.sw.pma.entities;
 
 import java.util.List;
 
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,9 +20,9 @@ public class Employee {
 	private String lastName;
 	private String email;
 	
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
 	@JoinColumn(name="project_id")
-	private Project theProject;
+	private Project project;
 	
 	
 	
@@ -37,6 +37,16 @@ public class Employee {
 		
 	}
 	
+	
+	
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
 	public long getEmployeeId() {
 		return employeeId;
 	}

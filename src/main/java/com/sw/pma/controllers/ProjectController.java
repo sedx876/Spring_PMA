@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sw.pma.dao.EmployeeRepository;
 import com.sw.pma.dao.ProjectRepository;
 import com.sw.pma.entities.Employee;
 import com.sw.pma.entities.Project;
@@ -20,6 +22,9 @@ public class ProjectController {
 	@Autowired
 	ProjectRepository proRepo;
 	
+	@Autowired
+	EmployeeRepository emRepo;
+	
 	@GetMapping
 	public String displayProjects(Model model) {
 		List<Project> projects = proRepo.findAll();
@@ -30,14 +35,22 @@ public class ProjectController {
 	@GetMapping("/new")
 	public String displayProjectForm(Model model) {
 		Project aProject = new Project();
+		List <Employee> employees = emRepo.findAll();
 		model.addAttribute("project", aProject);
+		model.addAttribute("allEmployees", employees);
 		return "projects/new-project";
 	}
 	
 	@PostMapping("/save")
-	public String createProject(Project project, Model model) {
+	public String createProject(Project project, @RequestParam List<Long> employees, Model model) {
 		//Handles saving to the DB
 		proRepo.save(project);
+		Iterable<Employee> chosenEmployees = emRepo.findAllById(employees);
+		
+		for(Employee emp : chosenEmployees) {
+			emp.setProject(project);
+			emRepo.save(emp);
+		}
 		return "redirect:/projects/new";
 	}
 }

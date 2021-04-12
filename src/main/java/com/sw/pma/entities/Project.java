@@ -18,7 +18,7 @@ public class Project {
 	private String stage;
 	private String description;
 	
-	@OneToMany(mappedBy="theProject")
+	@OneToMany(mappedBy="project")
 	private List<Employee> employees;
 	
 	public Project() {
@@ -31,27 +31,45 @@ public class Project {
 		this.stage = stage;
 		this.description = description;
 	}
+	
+	
+	
+	public List<Employee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(List<Employee> employees) {
+		this.employees = employees;
+	}
+
 	public long getProjectId() {
 		return projectId;
 	}
+	
 	public void setProjectId(long projectId) {
 		this.projectId = projectId;
 	}
+	
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public String getStage() {
 		return stage;
 	}
+	
 	public void setStage(String stage) {
 		this.stage = stage;
 	}
+	
 	public String getDescription() {
 		return description;
 	}
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}
