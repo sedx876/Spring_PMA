@@ -45,12 +45,6 @@ public class ProjectController {
 	public String createProject(Project project, @RequestParam List<Long> employees, Model model) {
 		//Handles saving to the DB
 		proRepo.save(project);
-		Iterable<Employee> chosenEmployees = emRepo.findAllById(employees);
-		
-		for(Employee emp : chosenEmployees) {
-			emp.setProject(project);
-			emRepo.save(emp);
-		}
-		return "redirect:/projects/new";
+		return "redirect:/projects";
 	}
 }
